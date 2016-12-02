@@ -21,7 +21,18 @@ router.get('/todo', function(req, res) {
 
 // api/todo/:id
 router.get('/todo/:id', function(req, res) {
-    
+   Task.findOne({_id: req.params.id}, function(err, task) {
+      if (err)
+        res.status(403)
+           .send({message: 'Error on DB'});
+           
+      if (task === null)
+        res.status(404)
+           .send({message: 'Resource not found'});
+           
+      res.status(200)
+           .send(task);
+   }); 
 });
 
 // api/todo/ -POST
